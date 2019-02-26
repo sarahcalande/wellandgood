@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-
+import ListItem from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
@@ -48,13 +48,10 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-          <ScrollView style={styles.container,{ paddingTop: 40, paddingSide: 30}}
+          <FlatList style={styles.container,{ paddingTop: 40, paddingSide: 30}}
                  data={this.state.dataSource}
                  renderItem={({item}) => (
-             <View
+             <ListItem
              title={
                <View style={styles.title}>
                <Text style={{fontSize: 20, textAlign: 'center', fontWeight: 'bold' }}>{item.title.rendered}</Text>
@@ -62,7 +59,7 @@ export default class HomeScreen extends React.Component {
            }
              subtitle={
                <View style={styles.container}>
-
+               
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
                </View>
@@ -72,19 +69,6 @@ export default class HomeScreen extends React.Component {
 
            )}
                />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
-            </View>
-          </View>
-        </ScrollView>
-      </View>
     );
   }
 
