@@ -28,26 +28,20 @@ export default class HomeScreen extends React.Component {
     .then((responseJson) => {this.setState({
       isLoading: false,
       dataSource: responseJson
-    }, function(){
-
-          });
-
-        })
+    })
+  }).then(fetchImages(responseJson.featured_media)
     }
 
 
-    fetchImages(item.featured_media){
-      return fetch(`https://www.wellandgood.com/wp-json/wp/v2/media/${item.featured_media}`)
+    fetchImages(responseJson.featured_media){
+      return fetch(`https://www.wellandgood.com/wp-json/wp/v2/media/${responseJson.featured_media}`)
       .then((response)=> response.json())
       .then((responseJson) => {this.setState({
         isLoading: false,
-        image: responseJson.Articles
-      }, function(){
-
-            });
-
-          })
+        images: responseJson.item.guid.rendered
+      })
     }
+  }
 
 
   render() {
@@ -70,11 +64,10 @@ export default class HomeScreen extends React.Component {
                      source={{ uri: fetchImages(item.featured_media) }}
                      style={styles.img}
                    />
-               <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.article_date} by {item.article_author} </Text>
+               <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
                </View>
              }
-             onPress={()=>{Linking.openURL(item.article_link)}}
              />
 
 
