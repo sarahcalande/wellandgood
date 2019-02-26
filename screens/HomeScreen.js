@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  FlatList,
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
@@ -29,19 +30,20 @@ export default class HomeScreen extends React.Component {
       isLoading: false,
       dataSource: responseJson
     })
-  }).then(fetchImages(responseJson.featured_media)
+  })
+  // }).then(fetchImages(responseJson.featured_media)
     }
 
 
-    fetchImages(responseJson.featured_media){
-      return fetch(`https://www.wellandgood.com/wp-json/wp/v2/media/${responseJson.featured_media}`)
-      .then((response)=> response.json())
-      .then((responseJson) => {this.setState({
-        isLoading: false,
-        images: responseJson.item.guid.rendered
-      })
-    }
-  }
+  //   fetchImages(responseJson.featured_media){
+  //     return fetch(`https://www.wellandgood.com/wp-json/wp/v2/media/${responseJson.featured_media}`)
+  //     .then((response)=> response.json())
+  //     .then((responseJson) => {this.setState({
+  //       isLoading: false,
+  //       images: responseJson.item.guid.rendered
+  //     })
+  //   }
+  // }
 
 
   render() {
@@ -49,10 +51,10 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
-          <FlatList style={styles.container,{ paddingTop: 40, paddingSide: 30}}
+          <ScrollView style={styles.container,{ paddingTop: 40, paddingSide: 30}}
                  data={this.state.dataSource}
                  renderItem={({item}) => (
-             <ListItem
+             <View
              title={
                <View style={styles.title}>
                <Text style={{fontSize: 20, textAlign: 'center', fontWeight: 'bold' }}>{item.title.rendered}</Text>
@@ -60,10 +62,7 @@ export default class HomeScreen extends React.Component {
            }
              subtitle={
                <View style={styles.container}>
-                   <Image
-                     source={{ uri: fetchImages(item.featured_media) }}
-                     style={styles.img}
-                   />
+
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
                </View>
@@ -83,24 +82,8 @@ export default class HomeScreen extends React.Component {
             <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
               <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
             </View>
-
-
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
           </View>
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
     );
   }
