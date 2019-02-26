@@ -17,23 +17,73 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  constructor(props){
+    super(props);
+  this.state = { isLoading: true }
+  }
+
+  componentDidMount(){
+    return fetch('https://www.wellandgood.com/wp-json/wp/v2/posts')
+    .then((response)=> response.json())
+    .then((responseJson) => {this.setState({
+      isLoading: false,
+      dataSource: responseJson
+    }, function(){
+
+          });
+
+        })
+    }
+
+
+    fetchImages(item.featured_media){
+      return fetch(`https://www.wellandgood.com/wp-json/wp/v2/media/${item.featured_media}`)
+      .then((response)=> response.json())
+      .then((responseJson) => {this.setState({
+        isLoading: false,
+        image: responseJson.Articles
+      }, function(){
+
+            });
+
+          })
+    }
+
+
   render() {
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
+          <FlatList style={styles.container,{ paddingTop: 40, paddingSide: 30}}
+                 data={this.state.dataSource}
+                 renderItem={({item}) => (
+             <ListItem
+             title={
+               <View style={styles.title}>
+               <Text style={{fontSize: 20, textAlign: 'center', fontWeight: 'bold' }}>{item.title.rendered}</Text>
+             </View>
+           }
+             subtitle={
+               <View style={styles.container}>
+                   <Image
+                     source={{ uri: fetchImages(item.featured_media) }}
+                     style={styles.img}
+                   />
+               <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.article_date} by {item.article_author} </Text>
+               <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
+               </View>
+             }
+             onPress={()=>{Linking.openURL(item.article_link)}}
+             />
+
+
+           )}
+               />
           </View>
 
           <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+
 
             <Text style={styles.getStartedText}>Get started by opening</Text>
 
@@ -41,9 +91,7 @@ export default class HomeScreen extends React.Component {
               <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
             </View>
 
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
+
           </View>
 
           <View style={styles.helpContainer}>
@@ -64,28 +112,7 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
 
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
 
   _handleLearnMorePress = () => {
     WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
