@@ -46,6 +46,7 @@ export default class HomeScreen extends React.Component {
   // }
 
 
+
   render() {
     return (
           <FlatList style={styles.container,{ paddingTop: 40, paddingSide: 30}}
@@ -60,8 +61,14 @@ export default class HomeScreen extends React.Component {
              subtitle={
                <View style={styles.container}>
                <Image
-               source={{ uri: item.content.rendered.substr(0, item.content.rendered.indexOf('alt'))}}
+               source={{ uri: (
+                 (item.content.rendered.slice(item.content.rendered.indexOf('src='),item.content.rendered.indexOf('alt'))
+               ).substr(4).replace('"','').replace('"','')
+             )
+               }}
                />
+               <Text>{     (item.content.rendered.slice(item.content.rendered.indexOf('src='),item.content.rendered.indexOf('alt'))
+             ).substr(4).replace('"','').replace('"','')}</Text>
 
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
@@ -73,6 +80,8 @@ export default class HomeScreen extends React.Component {
            )}
                />
     );
+
+    console.log(source.uri)
   }
 
 
