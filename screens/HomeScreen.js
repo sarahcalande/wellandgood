@@ -59,6 +59,9 @@ export default class HomeScreen extends React.Component {
            }
              subtitle={
                <View style={styles.container}>
+               <Image
+               source={{ uri: item.content.rendered.substr(0, item.content.rendered.indexOf('alt'))}}
+               />
 
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
@@ -74,16 +77,9 @@ export default class HomeScreen extends React.Component {
 
 
 
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
 
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
+
 
 const styles = StyleSheet.create({
   container: {
