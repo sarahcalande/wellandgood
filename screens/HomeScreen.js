@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import ListItem from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
@@ -59,7 +59,7 @@ export default class HomeScreen extends React.Component {
            }
              subtitle={
                <View style={styles.container}>
-               
+
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
                </View>
