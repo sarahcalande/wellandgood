@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Image,
   Platform,
   ScrollView,
   StyleSheet,
@@ -10,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Image } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 
 
@@ -51,16 +50,10 @@ export default class HomeScreen extends React.Component {
              </View>
            }
              subtitle={
-               <View style={styles.container}>
-              <Image sorce={{uri: item.guid.rendered}}/>
-               <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
-               </View>
-             }
-             avatar = {
   fetch(`https://wellandgood.com/wp-json/wp/v2/media/${item.featured_media}`)
     .then(r=>r.json())
     .then((r)=>{
-      return (<Image {{source: {uri:r.media_details.sizes.thumbnail.source_url}}}/>)})
+      return (<Image source ={{uri: r.media_details.sizes.thumbnail.source_url}}/>)})
         }
              />
            )}
