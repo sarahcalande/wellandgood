@@ -13,6 +13,8 @@ import { WebBrowser } from 'expo';
 import { ListItem } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 
+
+
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -27,66 +29,44 @@ export default class HomeScreen extends React.Component {
     return fetch('https://www.wellandgood.com/wp-json/wp/v2/posts')
     .then((response)=> response.json())
     .then((responseJson) => {this.setState({
-      isLoading: false,
-      dataSource: responseJson
-    })
-  })
-  // }).then(fetchImages(responseJson.featured_media)
-    }
-
-
-  //   fetchImages(responseJson.featured_media){
-  //     return fetch(`https://www.wellandgood.com/wp-json/wp/v2/media/${responseJson.featured_media}`)
-  //     .then((response)=> response.json())
-  //     .then((responseJson) => {this.setState({
-  //       isLoading: false,
-  //       images: responseJson.item.guid.rendered
-  //     })
-  //   }
-  // }
+          isLoading: false,
+          dataSource: responseJson
+        })
+      })
+}
 
 
 
   render() {
     return (
+
           <FlatList style={styles.container,{ paddingTop: 40, paddingSide: 30}}
                  data={this.state.dataSource}
+                 mediaData={this.state.data}
                  renderItem={({item}) => (
              <ListItem
              title={
                <View style={styles.title}>
-               <Text style={{fontSize: 20, textAlign: 'center', fontWeight: 'bold' }}>{item.title.rendered}</Text>
+               <WebView html={{html: item.title.rendered}}/>
              </View>
            }
              subtitle={
                <View style={styles.container}>
-               <Image
-               source={{ uri: (
-                 (item.content.rendered.slice(item.content.rendered.indexOf('src='),item.content.rendered.indexOf('alt'))
-               ).substr(4).replace('"','').replace('"','')
-             )
-               }}
-               />
-               <Text>{     (item.content.rendered.slice(item.content.rendered.indexOf('src='),item.content.rendered.indexOf('alt'))
-             ).substr(4).replace('"','').replace('"','')}</Text>
-
+              <Image sorce={{uri: item.guid.rendered}}/>
                <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.date}</Text>
-               <Text style={{ fontFamily: 'Helvetica', textAlign: 'center' }}> {item.content.rendered} </Text>
                </View>
              }
+             avatar = {
+  fetch(`https://wellandgood.com/wp-json/wp/v2/media/${item.featured_media}`)
+    .then(r=>r.json())
+    .then((r)=>{
+      return (<Image {{source: {uri:r.media_details.sizes.thumbnail.source_url}}}/>)})
+        }
              />
-
-
            )}
                />
     );
-
-    console.log(source.uri)
   }
-
-
-
-
 }
 
 

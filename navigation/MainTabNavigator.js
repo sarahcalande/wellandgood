@@ -54,7 +54,7 @@ SettingsStack.navigationOptions = {
 };
 
 export default createDrawerNavigator({
-  HomeStack,
+  Home,
   LinksStack,
   SettingsStack,
 });
