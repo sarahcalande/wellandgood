@@ -66,6 +66,9 @@ return(
             <Text style = {{ fontSize:24, fontWeight:'bold' }}>{item.title.rendered}</Text>
             <Text note>Published on: {Moment(item.date).format('d MMM Y')}</Text>
             </CardItem>
+            <CardItem>
+<HTML ignoredStyles={["font-family", 'padding','transform', 'font-weight',"letter-spacing", "display", "color"]} html={item.content.rendered}imagesMaxWidth={Dimensions.get('window').width }/>
+</CardItem>
 
             </Card>
                       ))}
@@ -74,6 +77,7 @@ return(
     );
   }
 }
+
 
 
 const styles = StyleSheet.create({
@@ -102,6 +106,7 @@ const styles = StyleSheet.create({
         width: 200,
         margin: 10
   },
+
   welcomeImage: {
     width: 100,
     height: 80,
