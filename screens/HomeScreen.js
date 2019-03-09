@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import Moment from 'moment';
-import { Container, Card, Content, CardItem} from 'native-base';
+import { Container, Card, Content, CardItem, Header, Body, Title} from 'native-base';
 import { MonoText } from '../components/StyledText';
 import HTML from 'react-native-render-html';
 
@@ -51,7 +51,13 @@ return(
 } else
 
     return (
-          <Container style={styles.container,{ paddingTop: 40, paddingSide: 30}} >
+          <Container style={styles.container,{ paddingTop: 10, paddingSide: 30, paddingBottom: 10}} >
+          <Header androidStatusBarColor="white"style={{ backgroundColor:'white' }}>
+<Body style={{ flex:1, flexDirection:'column', justifyContent:'center', alignItems:'center', }}>
+<Title style={{fontSize: 40}}>Well + Good</Title>
+</Body>
+</Header>
+
           <Content>
           {this.state.dataSource.map((item, index) => (
             <Card style={{flex:0}} key={item.id}>
@@ -64,7 +70,9 @@ return(
 
             <CardItem>
             <Text style = {{ fontSize:24, fontWeight:'bold' }}>{item.title.rendered}</Text>
-            <Text note>Published on: {Moment(item.date).format('d MMM Y')}</Text>
+            </CardItem>
+            <CardItem>
+                        <Text note>Published on: {Moment(item.date).format('d MMM Y')}</Text>
             </CardItem>
             <CardItem>
 <HTML ignoredStyles={["font-family", 'padding','transform', 'font-weight',"letter-spacing", "display", "color"]} html={item.content.rendered}imagesMaxWidth={Dimensions.get('window').width }/>
