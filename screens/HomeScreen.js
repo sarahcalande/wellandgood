@@ -69,13 +69,13 @@ return(
             </CardItem>
 
             <CardItem>
-            <Text style = {{ fontSize:24, fontWeight:'bold' }}>{item.title.rendered}</Text>
+            <Text style = {{ fontSize:24, fontWeight:'bold', textAlign:'center' }}>{item.title.rendered}</Text>
             </CardItem>
             <CardItem>
                         <Text note>Published on: {Moment(item.date).format('d MMM Y')}</Text>
             </CardItem>
             <CardItem>
-<HTML ignoredStyles={["font-family", 'padding','transform', 'font-weight',"letter-spacing", "display", "color"]} html={item.content.rendered}imagesMaxWidth={Dimensions.get('window').width }/>
+<HTML ignoredStyles={["font-family", 'padding','transform', 'font-weight',"letter-spacing", "display", "color"]} style={{textAlign: 'center', alignSelf:'center', paddingSide:10}}html={item.content.rendered}imagesMaxWidth={Dimensions.get('window').width }/>
 </CardItem>
 
             </Card>
