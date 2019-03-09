@@ -13,26 +13,6 @@ import { ListItem, Image } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignContent: 'center'
-  },
-  title: {
-  fontSize: 100,
-  alignSelf: 'center'
-},
-  img: {
-    alignSelf: 'center',
-        height: 240,
-        width: 420,
-        margin: 10
-  },
-  subtitle: {
-    padding: 20,
-    textAlign: 'center'
-  }
-});
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -64,11 +44,6 @@ export default class HomeScreen extends React.Component {
                  mediaData={this.state.data}
                  renderItem={({item}) => (
              <ListItem
-             title={
-               <View style={styles.title}>
-               <WebView html={{html: item.title.rendered}}/>
-             </View>
-           }
              subtitle={
   fetch(`https://wellandgood.com/wp-json/wp/v2/media/${item.featured_media}`)
     .then(r=>r.json())
@@ -102,6 +77,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 20,
+  },
+  img: {
+    alignSelf: 'center',
+        height: 240,
+        width: 420,
+        margin: 10
   },
   welcomeImage: {
     width: 100,
