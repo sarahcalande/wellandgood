@@ -8,11 +8,14 @@ import {
   TouchableOpacity,
   FlatList,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  Dimensions
 } from 'react-native';
 import { WebBrowser } from 'expo';
+import Moment from 'moment';
 import { Container, Card, Content, CardItem} from 'native-base';
 import { MonoText } from '../components/StyledText';
+import HTML from 'react-native-render-html';
 
 
 
@@ -52,10 +55,16 @@ return(
           <Content>
           {this.state.dataSource.map((item, index) => (
             <Card style={{flex:0}} key={item.id}>
+
             <CardItem>
             {item._embedded['wp:featuredmedia'].filter( element=>element.id == item.featured_media).map((subitem, index) => (
 <Image source={{uri:subitem.media_details.sizes.medium.source_url}}style={{height:200, width:200, flex:1}}key = {item.id}/>
 ))}
+            </CardItem>
+
+            <CardItem>
+            <Text style = {{ fontSize:24, fontWeight:'bold' }}>{item.title.rendered}</Text>
+            <Text note>Published on: {Moment(item.date).format('d MMM Y')}</Text>
             </CardItem>
 
             </Card>
