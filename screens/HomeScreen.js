@@ -4,12 +4,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  Image,
   TouchableOpacity,
   FlatList,
   View,
+  ActivityIndicator
 } from 'react-native';
 import { WebBrowser } from 'expo';
-import { ListItem, Image } from 'react-native-elements';
+import { Container, Card, Content, CardItem} from 'native-base';
 import { MonoText } from '../components/StyledText';
 
 
@@ -25,8 +27,8 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount(){
-    return fetch('https://www.wellandgood.com/wp-json/wp/v2/posts')
-    .then((response)=> response.json())
+    return fetch(`https://www.wellandgood.com/wp-json/wp/v2/posts?_embed`)
+    .then((r)=> r.json())
     .then((responseJson) => {this.setState({
           isLoading: false,
           dataSource: responseJson
@@ -36,23 +38,30 @@ export default class HomeScreen extends React.Component {
 
 
 
-  render() {
-    return (
+  render(){
+if(this.state.isLoading){
+return(
+<View style={{flex: 1, padding: 20}}>
+  <ActivityIndicator/>
+</View>
+)
+} else
 
-          <FlatList style={styles.container,{ paddingTop: 40, paddingSide: 30}}
-                 data={this.state.dataSource}
-                 mediaData={this.state.data}
-                 renderItem={({item}) => (
-             <ListItem
-             subtitle={
-  fetch(`https://wellandgood.com/wp-json/wp/v2/media/${item.featured_media}`)
-    .then(r=>r.json())
-    .then((r)=>{
-      return (<Image source ={{uri: r.media_details.sizes.thumbnail.source_url}} style={styles.img} />)})
-        }
-             />
-           )}
-               />
+    return (
+          <Container style={styles.container,{ paddingTop: 40, paddingSide: 30}} >
+          <Content>
+          {this.state.dataSource.map((item, index) => (
+            <Card style={{flex:0}} key={item.id}>
+            <CardItem>
+            {item._embedded['wp:featuredmedia'].filter( element=>element.id == item.featured_media).map((subitem, index) => (
+<Image source={{uri:subitem.media_details.sizes.medium.source_url}}style={{height:200, width:200, flex:1}}key = {item.id}/>
+))}
+            </CardItem>
+
+            </Card>
+                      ))}
+            </Content>
+            </Container>
     );
   }
 }
@@ -81,7 +90,7 @@ const styles = StyleSheet.create({
   img: {
     alignSelf: 'center',
         height: 240,
-        width: 420,
+        width: 200,
         margin: 10
   },
   welcomeImage: {
